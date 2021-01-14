@@ -4,6 +4,8 @@ import os
 
 import matplotlib.pyplot as plt
 from PIL import Image
+import cv2
+
 st.title("Picture Selector App")
 st.text("Pictures to select")
 
@@ -24,9 +26,15 @@ def load_img(dir_name):
     return images
 
 def reSize(img):
-    size = img.shape
+    img_size = img.shape
+    end_width = 500
+    scale = end_width/img_size[1]
+    
+    width = int(img_size[1] * scale)
+    height = int(img_size[0] * scale)
+    dsize = (width, height)
     #resize the image
-    return
+    return cv2.resize(img, dsize)
 
 data = load_img(DATA_URL)
 
@@ -38,4 +46,10 @@ choice = st.sidebar.selectbox("Select Activity", activities)
 if choice =="Selection":
     x = st.slider('x', 0, len(data)-1)
     st.write("You selected", x)
-    st.image(data[x])
+    data[x].shape
+    st.image(reSize(data[x]))
+
+#About Choice
+if choice =="About":
+    st.write("You selected About")
+
